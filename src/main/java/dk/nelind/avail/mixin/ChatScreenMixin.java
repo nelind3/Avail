@@ -1,6 +1,5 @@
 package dk.nelind.avail.mixin;
 
-import dk.nelind.avail.gui.MainScreen;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -13,6 +12,10 @@ import org.spongepowered.asm.mixin.Mixin;
 
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvType;
+
+import dk.nelind.avail.gui.HomeScreen;
+
+import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
 @Mixin(ChatScreen.class)
@@ -29,10 +32,12 @@ public abstract class ChatScreenMixin extends Screen {
         int chatTextFieldMargin = 2;
         int chatTextFieldHeight = 12;
 
+        Objects.requireNonNull(this.client);
+
         addDrawableChild(
             new ButtonWidget.Builder(
                 Text.translatable("§a?"),
-                btn -> client.setScreen(new MainScreen()))
+                btn -> this.client.setScreen(new HomeScreen()))
                 .position(
                     this.width  - chatTextFieldMargin - buttonWidth,
                     this.height - chatTextFieldMargin - buttonHeight - chatTextFieldHeight - buttonMargin
