@@ -20,17 +20,17 @@ import net.minecraft.util.math.MathHelper;
 
 public class DocDisplayWidget extends ScrollableWidget {
     private final TextRenderer textRenderer;
+    private final Consumer<Style> textClickCallback;
     private final List<OrderedText> docLines;
     private final int contentsWidth;
-    private final Consumer<Style> textClickCallback;
 
     public DocDisplayWidget(int x, int y, int width, int height, JsonElement rawMessage, TextRenderer textRenderer, Consumer<Style> textClickCallback) {
         super(x, y, width, height, Text.Serializer.fromJson(rawMessage));
+        this.textClickCallback = textClickCallback;
+        this.textRenderer = textRenderer;
         Text message = Text.Serializer.fromJson(rawMessage);
         this.contentsWidth = width - (2 * this.getPadding());
         this.docLines = textRenderer.wrapLines(message, this.contentsWidth);
-        this.textRenderer = textRenderer;
-        this.textClickCallback = textClickCallback;
     }
 
     @Override
@@ -53,6 +53,7 @@ public class DocDisplayWidget extends ScrollableWidget {
 
         context.getMatrices().translate(this.getX() + this.getPadding() + 1, this.getY() + this.getPadding() + 1, 0);
         for (OrderedText line : this.docLines) {
+            assert Formatting.WHITE.getColorValue() != null;
             context.drawText(this.textRenderer, line, 0, 0, Formatting.WHITE.getColorValue(), false);
             context.getMatrices().translate(0, this.textRenderer.fontHeight, 0);
         }
@@ -75,14 +76,14 @@ public class DocDisplayWidget extends ScrollableWidget {
         OrderedText line = this.getLineAt(x, y);
         if(line == null) return null;
 
-        double relativeX = getRelativeXWOPadding(x);
+        double relativeX = getRelativeXWithoutPadding(x);
 
         return this.textRenderer.getTextHandler().getStyleAt(line, (int) relativeX);
     }
 
     @Nullable
     private OrderedText getLineAt(double x, double y) {
-        double relativeX = getRelativeXWOPadding(x);
+        double relativeX = getRelativeXWithoutPadding(x);
         if(relativeX < 0 || relativeX > this.contentsWidth) return null;
 
         double relativeY = getRelativeY(y);
@@ -94,8 +95,12 @@ public class DocDisplayWidget extends ScrollableWidget {
         return this.docLines.get(lineIndex);
     }
 
-    private double getRelativeXWOPadding(double x) {
-        return x - (this.getX() + 1) - this.getPadding();
+    private double getRelativeXWithoutPadding(double x) {
+        return getRelativeX(x) - this.getPadding();
+    }
+
+    private double getRelativeX(double x) {
+        return x - (this.getX() + 1);
     }
 
     private double getRelativeY(double y) {

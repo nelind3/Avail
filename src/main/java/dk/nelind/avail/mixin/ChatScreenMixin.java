@@ -1,5 +1,7 @@
 package dk.nelind.avail.mixin;
 
+import java.util.Objects;
+
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -14,8 +16,6 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvType;
 
 import dk.nelind.avail.gui.HomeScreen;
-
-import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
 @Mixin(ChatScreen.class)
