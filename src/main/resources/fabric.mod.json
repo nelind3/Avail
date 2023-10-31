@@ -1,9 +1,9 @@
 {
 	"schemaVersion": 1,
 	"id": "avail",
-	"version": "0.1.0",
+	"version": "${version}",
 	"name": "Avail",
-	"description": "Avail is a command documentation mod for Fabric and Quilt",
+	"description": "Avail is a command documentation mod for Fabric and Quilt.\nVersion ${version}\nCommit ${gitcommit}",
 	"authors": [
 		{
 			"name": "Nelind (nelind3)",

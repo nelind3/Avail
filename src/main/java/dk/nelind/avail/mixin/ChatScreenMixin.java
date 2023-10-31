@@ -20,6 +20,7 @@ import dk.nelind.avail.gui.HomeScreen;
 @Environment(EnvType.CLIENT)
 @Mixin(ChatScreen.class)
 public abstract class ChatScreenMixin extends Screen {
+
     protected ChatScreenMixin(Text title) {
         super(title);
     }
