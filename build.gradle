@@ -26,9 +26,10 @@ dependencies {
 
 processResources {
 	inputs.property "version", project.version
+	inputs.property "gitcommit", grgit.head().id.substring(0,7)
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version, "gitcommit": grgit.head().id
+		expand "version": project.version, "gitcommit": grgit.head().id.substring(0,7)
 	}
 }
 

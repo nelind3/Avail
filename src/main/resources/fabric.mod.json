@@ -26,11 +26,11 @@
 		]
 	},
 	"mixins": [
-	{
-		"config": "avail.mixins.json",
-		"environment": "client"
-	}
-],
+		{
+			"config": "avail.mixins.json",
+			"environment": "client"
+		}
+	],
 	"depends": {
 		"fabricloader": ">=0.14.21",
 		"minecraft": "~1.20",
